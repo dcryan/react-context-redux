@@ -1,24 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useContext, useReducer, useEffect } from 'react';
+import { reducers, context as AppContext, initStore } from './store';
+import Header from './components/Header';
+import AddTodo from './components/AddTodo';
+import TodoList from './components/TodoList';
 import './App.css';
 
 function App() {
+  const initialState = useContext(AppContext);
+  const [app, dispatch] = useReducer(reducers, initialState);
+
+  useEffect(() => {
+    initStore(dispatch);
+  }, []);
+
+  if (!app) {
+    return <div />;
+  }
+
+  let todos;
+  if (app.auth.loggedIn) {
+    todos = (
+      <div>
+        <AddTodo />
+        <TodoList />
+      </div>
+    );
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppContext.Provider value={{ app, dispatch }}>
+        <Header />
+        {todos}
+      </AppContext.Provider>
     </div>
   );
 }
