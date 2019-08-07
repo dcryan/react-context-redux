@@ -6,23 +6,26 @@ import { clearTodos } from '../store/todos';
 export default function Header() {
   const { app, dispatch } = useContext(AppContext);
 
+  const handleSignOut = () => {
+    signOut(dispatch);
+    clearTodos(dispatch);
+  };
+
+  const handleSignIn = () => {
+    signIn(dispatch);
+  };
+
   let logout;
   let login;
   if (app.auth.loggedIn) {
     logout = (
-      <button
-        type="button"
-        onClick={() => {
-          signOut(dispatch);
-          clearTodos(dispatch);
-        }}
-      >
+      <button type="button" onClick={handleSignOut}>
         Log Out
       </button>
     );
   } else {
     login = (
-      <button type="button" onClick={() => signIn(dispatch)}>
+      <button type="button" onClick={handleSignIn}>
         Log In
       </button>
     );

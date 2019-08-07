@@ -6,6 +6,10 @@ export default function AddTodo() {
   const [todoName, setTodoName] = useState('');
   const { dispatch } = useContext(AppContext);
 
+  const handleOnChange = e => {
+    setTodoName(e.target.value);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
     addTodo(dispatch, { name: todoName, completed: false });
@@ -15,7 +19,7 @@ export default function AddTodo() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input value={todoName} onChange={e => setTodoName(e.target.value)} />
+        <input value={todoName} onChange={handleOnChange} />
         <button type="submit">Add</button>
       </form>
     </div>

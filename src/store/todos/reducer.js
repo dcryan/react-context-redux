@@ -10,7 +10,10 @@ export const reducer = (state = initialState, { type, payload }) => {
       return { ...state, todos: [...state.todos, payload] };
     case ACTIONS.COMPLETE_TODO: {
       const todoId = payload;
+
+      // Don't mutate the original
       const newTodos = [...state.todos];
+      newTodos[todoId] = { ...state.todos[todoId] };
       newTodos[todoId].completed = !newTodos[todoId].completed;
 
       return { ...state, todos: newTodos };
