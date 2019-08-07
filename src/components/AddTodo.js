@@ -7,7 +7,8 @@ export default function AddTodo() {
   const { dispatch } = useContext(AppContext);
 
   const handleOnChange = e => {
-    setTodoName(e.target.value);
+    const name = e.target.value;
+    setTodoName(name);
   };
 
   const handleSubmit = e => {
