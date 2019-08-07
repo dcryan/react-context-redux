@@ -3,7 +3,7 @@ import { reducer as TodosReducer } from './todos/reducer';
 
 const initialState = {};
 
-export const reducers = (state = initialState, action) => {
+export const combineReducers = (state = initialState, action) => {
   console.log('action', 'type', action.type, 'payload', action.payload);
 
   const auth = AuthReducer(state.auth, action);

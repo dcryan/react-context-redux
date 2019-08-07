@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { context as AppContext } from '../store';
+import { AppContext } from '../store';
 import { signIn, signOut } from '../store/auth';
 import { clearTodos } from '../store/todos';
 

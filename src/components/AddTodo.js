@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { context as AppContext } from '../store';
+import { AppContext } from '../store';
 import { addTodo } from '../store/todos';
 
 export default function AddTodo() {

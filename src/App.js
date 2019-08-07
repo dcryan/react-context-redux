@@ -1,5 +1,5 @@
 import React, { useContext, useReducer, useEffect } from 'react';
-import { reducers, context as AppContext, initStore } from './store';
+import { combineReducers, AppContext, initStore } from './store';
 import Header from './components/Header';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
@@ -7,7 +7,7 @@ import './App.css';
 
 function App() {
   const initialState = useContext(AppContext);
-  const [app, dispatch] = useReducer(reducers, initialState);
+  const [app, dispatch] = useReducer(combineReducers, initialState);
 
   useEffect(() => {
     initStore(dispatch);

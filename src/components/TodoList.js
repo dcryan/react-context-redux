@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { context } from '../store';
+import { AppContext } from '../store';
 import { completeTodo } from '../store/todos';
 import TodoListItem from './TodoListItem';
 
 export default function TodoList() {
-  const { app, dispatch } = useContext(context);
+  const { app, dispatch } = useContext(AppContext);
 
   const handleCompleteTodo = todoId => () => {
     completeTodo(dispatch, todoId);
