@@ -1,14 +1,11 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../store';
-import { signIn, signOut } from '../store/auth';
-import { clearTodos } from '../store/todos';
+import { context as AuthContext, signIn, signOut } from '../store/auth';
 
 export default function Header() {
-  const { app, dispatch } = useContext(AppContext);
+  const { auth, dispatch } = useContext(AuthContext);
 
   const handleSignOut = () => {
     signOut(dispatch);
-    clearTodos(dispatch);
   };
 
   const handleSignIn = () => {
@@ -17,7 +14,7 @@ export default function Header() {
 
   let logout;
   let login;
-  if (app.auth.loggedIn) {
+  if (auth.loggedIn) {
     logout = (
       <button type="button" onClick={handleSignOut}>
         Log Out
