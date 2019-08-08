@@ -9,6 +9,7 @@ function App() {
 
   return (
     <div className="App">
+      <div>Stage 1</div>
       <AuthContext.Provider value={{ auth, dispatch }}>
         <Header />
       </AuthContext.Provider>
