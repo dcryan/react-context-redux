@@ -6,8 +6,7 @@ import TodoList from './components/TodoList';
 import './App.css';
 
 function App() {
-  const initialState = useContext(AppContext);
-  const [app, dispatch] = useReducer(combineReducers, initialState);
+  const [app, dispatch] = useReducer(combineReducers);
 
   useEffect(() => {
     initStore(dispatch);
