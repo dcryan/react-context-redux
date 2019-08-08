@@ -1,38 +1,19 @@
-import React, { useContext, useReducer, useEffect } from 'react';
-import { combineReducers, AppContext, initStore } from './store';
-import Header from './components/Header';
+import React, { useContext, useReducer } from 'react';
+import { reducer, context as TodosContext } from './store/todos';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 import './App.css';
 
 function App() {
-  const initialState = useContext(AppContext);
-  const [app, dispatch] = useReducer(combineReducers, initialState);
-
-  useEffect(() => {
-    initStore(dispatch);
-  }, []);
-
-  if (!app) {
-    return <div />;
-  }
-
-  let todos;
-  if (app.auth.loggedIn) {
-    todos = (
-      <div>
-        <AddTodo />
-        <TodoList />
-      </div>
-    );
-  }
+  const initialState = useContext(TodosContext);
+  const [todos, dispatch] = useReducer(reducer, initialState);
 
   return (
     <div className="App">
-      <AppContext.Provider value={{ app, dispatch }}>
-        <Header />
-        {todos}
-      </AppContext.Provider>
+      <TodosContext.Provider value={{ todos, dispatch }}>
+        <AddTodo />
+        <TodoList />
+      </TodosContext.Provider>
     </div>
   );
 }

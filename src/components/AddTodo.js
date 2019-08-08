@@ -1,10 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { AppContext } from '../store';
-import { addTodo } from '../store/todos';
+import { context as TodosContext, addTodo } from '../store/todos';
 
 export default function AddTodo() {
   const [todoName, setTodoName] = useState('');
-  const { dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(TodosContext);
 
   const handleOnChange = e => {
     const name = e.target.value;
@@ -14,6 +13,8 @@ export default function AddTodo() {
   const handleSubmit = e => {
     e.preventDefault();
     addTodo(dispatch, { name: todoName, completed: false });
+
+    // Reset textfield
     setTodoName('');
   };
 
