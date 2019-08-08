@@ -10,6 +10,7 @@ function App() {
 
   return (
     <div className="App">
+      <div>Stage 2</div>
       <TodosContext.Provider value={{ todos, dispatch }}>
         <AddTodo />
         <TodoList />
