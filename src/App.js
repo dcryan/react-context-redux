@@ -28,6 +28,7 @@ function App() {
 
   return (
     <div className="App">
+      <div>Stage 3</div>
       <AppContext.Provider value={{ app, dispatch }}>
         <Header />
         {todos}
