@@ -1,69 +1,90 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Hooks for Replacing Redux
 
-## Available Scripts
+[Slides from presentation](https://docs.google.com/presentation/d/13UeoCwjvOpdTXezWQr0YuOoe8qiI6ID-a6_nTsheiqg/edit?usp=sharing)
 
-In the project directory, you can run:
+## Background
+I'm assuming you guys know about React Hooks, and Redux. If not, here's a brief summary of both.
 
-### `npm start`
+[React Hooks](https://reactjs.org/docs/hooks-intro.html)
+> Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[Redux](https://redux.js.org/)
+> A predictable state container for JavaScript Apps
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
+I was playing around with hooks and was doing some experimenting. I stumbled upon a pattern that allowed **redux-like** behavior. It uses two React Hooks in tandem.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### First part: Context
+> Context provides a way to pass data through the component tree without having to pass props down manually at every level.
 
-### `npm run build`
+Hooks exposed context, and made it really easy to access. Context is the store of the **redux-like** behavior.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You define it as such:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+context.js
+```
+import { createContext } from 'react';
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const initialState = {};
+export const = createContext(initialState);
+```
 
-### `npm run eject`
+App.js
+```
+import { context as AppContext } from './store';
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<AppContext.Provider value={someObject}>
+</AppContext.Provider>
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+other.js
+```
+import { context as AppContext } from './store';
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+const someObject = useContext(AppContext);
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Second part: Reducers
+> Specify how the application's state changes.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Reducers Are defined as such:
+```
+const [state, dispatch] = useReducer(reducerFunction, initialState);
+```
 
-### Code Splitting
+### Combining the Two
+App.js
+```
+import { context as AppContext } from './store';
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+const initialState = useContext(AppContext);
+const [state, dispatch] = useReducer(reducerFunction, initialState);
 
-### Analyzing the Bundle Size
+<AppContext.Provider value={{ state, dispatch }}>
+</AppContext.Provider>
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+other.js
+```
+import { context as AppContext } from './store';
 
-### Making a Progressive Web App
+const { state, dispatch } = useContext(AppContext);
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## Examples
 
-### Advanced Configuration
+This repository is an example of a todo list with simple authentication. The login information and the todos are stored as two reducers under a single combined reducer. I have separated out stages in the following.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### Stage 1
+**Checkout branch `stage-1`**
+This stage is just the Login Reducer.
 
-### Deployment
+### Stage 2
+**Checkout branch `stage-2`**
+This stage is the Todos Reducer.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# react-context
+### Stage 3
+**Checkout branch `stage-3`**
+This stage is the CombineReducers version.
